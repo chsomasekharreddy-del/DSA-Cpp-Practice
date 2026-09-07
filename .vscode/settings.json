@@ -1,0 +1,6 @@
+{
+  "files.autoSave": "onFocusChange",
+  "editor.tabSize": 4,
+  "editor.formatOnSave": true,
+  "C_Cpp.updateChannel": "Insiders"
+}
