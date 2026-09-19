@@ -1,62 +1,50 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-vector<int> distribute(vector<int> &nums)
+struct Node
 {
-    vector<int> arrOne;
-    vector<int> arrTwo;
+public:
+    int data;
+    Node *next;
 
-    arrOne.push_back(nums[0]);
-    arrTwo.push_back(nums[1]);
-
-    int i = 2;
-
-    while (i < nums.size())
+public:
+    Node(int data1, Node *next1)
     {
-        if (arrOne.back() > arrTwo.back())
-        {
-            arrOne.push_back(nums[i]);
-        }
-        else
-        {
-            arrTwo.push_back(nums[i]);
-        }
-        i++;
+        data = data1;
+        next = next1;
     }
 
-    vector<int> newArray;
-
-    for (int i = 0; i < arrOne.size(); i++)
+public:
+    Node(int data1)
     {
-        newArray.push_back(arrOne[i]);
+        data = data1;
+        next = nullptr;
     }
+};
 
-    for (int i = 0; i < arrTwo.size(); i++)
+Node *arrtoll(vector<int> &arr)
+{
+    Node *head = new Node(arr[0]);
+    Node *mover = head;
+
+    for (int i = 1; i < arr.size(); i++)
     {
-        newArray.push_back(arrTwo[i]);
+        Node *temp = new Node(arr[i]);
+        mover->next = temp;
+        mover = temp;
     }
-
-    return newArray;
+    return head;
 }
 
 int main()
 {
-    int n;
+    vector<int> arr = {2, 3, 5, 6, 7};
+    Node *bob = arrtoll(arr);
+    Node *temp = bob;
 
-    cout << "enter size:";
-
-    cin >> n;
-
-    vector<int> nums(n);
-    for (auto &it : nums)
-        cin >> it;
-
-    vector<int> ans = distribute(nums);
-
-    for (int i = 0; i < ans.size(); i++)
+    while (temp != NULL)
     {
-        cout << ans[i];
+        cout << temp->data << " ";
+        temp = temp->next;
     }
-
-    return 0;
 }
