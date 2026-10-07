@@ -34,6 +34,7 @@ Node *arrayToDLL(vector<int> &arr)
         prev->next = temp;
         prev = prev->next;
     }
+
     return head;
 }
 
@@ -42,7 +43,6 @@ void print(Node *head)
     while (head != NULL)
     {
         cout << head->data << " ";
-
         head = head->next;
     }
 }
@@ -59,10 +59,13 @@ Node *deletionOfHeadDLL(Node *head)
         delete head;
         return NULL;
     }
+
     Node *prev = head;
     head = head->next;
+
     head->back = NULL;
     prev->next = NULL;
+
     delete prev;
 
     return head;
@@ -82,14 +85,19 @@ Node *deletionTail(Node *head)
     }
 
     Node *temp = head;
+
     while (temp->next != NULL)
     {
         temp = temp->next;
     }
+
     Node *prev = temp->back;
+
     temp->back = NULL;
     prev->next = NULL;
+
     delete temp;
+
     return head;
 }
 
@@ -102,15 +110,25 @@ Node *deletionofkposition(Node *head, int k)
 
     Node *temp = head;
     int count = 0;
+
     while (temp != NULL)
     {
         count++;
+
         if (count == k)
         {
             break;
         }
+
         temp = temp->next;
     }
+
+    // If k is greater than the list size
+    if (temp == NULL)
+    {
+        return head;
+    }
+
     Node *prev = temp->back;
     Node *front = temp->next;
 
@@ -118,18 +136,65 @@ Node *deletionofkposition(Node *head, int k)
     {
         return deletionOfHeadDLL(head);
     }
+
     else if (front == NULL)
     {
         return deletionTail(head);
     }
+
     else
     {
         prev->next = front;
         front->back = prev;
+
         temp->next = NULL;
         temp->back = NULL;
+
         delete temp;
     }
+
+    return head;
+}
+
+void deleteNode(Node *temp)
+{
+    Node *prev = temp->back;
+    Node *front = temp->next;
+
+    if (front == NULL)
+    {
+        prev->next = NULL;
+        temp->back = NULL;
+
+        delete temp;
+        return;
+    }
+
+    prev->next = front;
+    front->back = prev;
+
+    temp->next = NULL;
+    temp->back = NULL;
+
+    delete temp;
+}
+
+Node *insertionbeforehead(Node *head, int val)
+{
+    Node *newHead = new Node(val, head, NULL);
+
+    head->back = newHead;
+
+    return newHead;
+}
+
+Node *insertionafterhead(Node *head, int val)
+{
+    Node *newafterhead = new Node(val, head->next, head);
+
+    head->next = newafterhead;
+    newafterhead->back = head;
+
     return head;
 }
 
@@ -137,8 +202,7 @@ int main()
 {
     vector<int> arr = {2, 5, 3, 4, 7};
     Node *head = arrayToDLL(arr);
-    head = deletionofkposition(head, 1);
-
+    head = insertionafterhead(head, 44);
     print(head);
     return 0;
 }

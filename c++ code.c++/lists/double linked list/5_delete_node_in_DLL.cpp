@@ -133,11 +133,30 @@ Node *deletionofkposition(Node *head, int k)
     return head;
 }
 
+void deleteNode(Node *temp)
+{
+    Node *prev = temp->back;
+    Node *front = temp->next;
+
+    if (front == NULL)
+    {
+        prev->next = NULL;
+        temp->back = NULL;
+        delete temp;
+        return;
+    }
+    prev->next = front;
+    front->back = prev;
+
+    temp->next = temp->back = NULL;
+    delete temp;
+}
+
 int main()
 {
     vector<int> arr = {2, 5, 3, 4, 7};
     Node *head = arrayToDLL(arr);
-    head = deletionofkposition(head, 1);
+    deleteNode(head->next);
 
     print(head);
     return 0;
